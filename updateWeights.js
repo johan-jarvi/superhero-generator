@@ -209,13 +209,30 @@ function updateAllWeights(
 function showCurrentProbabilities() {
   try {
     const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
-    const totalWeight = config.reduce((sum, dev) => sum + dev.count, 0);
+
+    // Filter out excluded and zero-count members (same as superHero.js)
+    const excludedDevelopersList = [];
+    const lowercasedExclusions = excludedDevelopersList.map((e) =>
+      e.toLowerCase(),
+    );
+    const onlyPositives = config.filter(
+      (dev) =>
+        dev.count > 0 && !lowercasedExclusions.includes(dev.name.toLowerCase()),
+    );
+
+    // Use rounded counts for actual wheel odds
+    const totalRoundedEntries = onlyPositives
+      .map((dev) => Math.round(dev.count))
+      .reduce((a, b) => a + b);
 
     console.log("📊 Current Probabilities:");
-    config
-      .sort((a, b) => b.count - a.count)
+    onlyPositives
+      .sort((a, b) => Math.round(b.count) - Math.round(a.count))
       .forEach((dev) => {
-        const percentage = ((dev.count / totalWeight) * 100).toFixed(2);
+        const roundedCount = Math.round(dev.count);
+        const percentage = ((roundedCount / totalRoundedEntries) * 100).toFixed(
+          2,
+        );
         console.log(
           `  ${dev.name}: ${percentage}% (weight: ${dev.count.toFixed(4)})`,
         );
@@ -402,16 +419,30 @@ if (require.main === module) {
     if (!dryRun) {
       console.log("📊 Updated Probabilities:");
       const updatedConfig = JSON.parse(fs.readFileSync("config.json", "utf-8"));
-      const updatedTotalWeight = updatedConfig.reduce(
-        (sum, dev) => sum + dev.count,
-        0,
+
+      // Filter and use rounded counts for actual wheel odds
+      const excludedDevelopersList = [];
+      const lowercasedExclusions = excludedDevelopersList.map((e) =>
+        e.toLowerCase(),
       );
-      updatedConfig
-        .sort((a, b) => b.count - a.count)
+      const onlyPositives = updatedConfig.filter(
+        (dev) =>
+          dev.count > 0 &&
+          !lowercasedExclusions.includes(dev.name.toLowerCase()),
+      );
+
+      const updatedTotalRoundedEntries = onlyPositives
+        .map((dev) => Math.round(dev.count))
+        .reduce((a, b) => a + b);
+
+      onlyPositives
+        .sort((a, b) => Math.round(b.count) - Math.round(a.count))
         .forEach((dev) => {
-          const percentage = ((dev.count / updatedTotalWeight) * 100).toFixed(
-            2,
-          );
+          const roundedCount = Math.round(dev.count);
+          const percentage = (
+            (roundedCount / updatedTotalRoundedEntries) *
+            100
+          ).toFixed(2);
           console.log(
             `  ${dev.name}: ${percentage}% (weight: ${dev.count.toFixed(4)})`,
           );

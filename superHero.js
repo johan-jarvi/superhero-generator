@@ -33,17 +33,19 @@ const totalEntries = onlyPositives
   .map((dev) => Math.round(dev.count))
   .reduce((a, b) => a + b);
 
-// Calculate odds display object
+// Calculate odds display object using rounded counts (actual wheel odds)
 const oddsDisplay = {};
 onlyPositives.forEach((dev) => {
-  const percentageOdds = ((dev.count / totalEntries) * 100).toFixed(2);
+  const roundedCount = Math.round(dev.count);
+  const percentageOdds = ((roundedCount / totalEntries) * 100).toFixed(2);
   oddsDisplay[dev.name] = `${percentageOdds}%`;
 });
 
 const repeated = onlyPositives.flatMap((dev) => {
-  const percentageOdds = ((dev.count / totalEntries) * 100).toFixed(2);
+  const roundedCount = Math.round(dev.count);
+  const percentageOdds = ((roundedCount / totalEntries) * 100).toFixed(2);
 
-  return Array(Math.round(dev.count)).fill(`${dev.name} (${percentageOdds}%)`);
+  return Array(roundedCount).fill(`${dev.name} (${percentageOdds}%)`);
 });
 
 shuffle(repeated);
