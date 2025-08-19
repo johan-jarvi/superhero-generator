@@ -33,6 +33,13 @@ const totalEntries = onlyPositives
   .map((dev) => Math.round(dev.count))
   .reduce((a, b) => a + b);
 
+// Calculate odds display object
+const oddsDisplay = {};
+onlyPositives.forEach((dev) => {
+  const percentageOdds = ((dev.count / totalEntries) * 100).toFixed(2);
+  oddsDisplay[dev.name] = `${percentageOdds}%`;
+});
+
 const repeated = onlyPositives.flatMap((dev) => {
   const percentageOdds = ((dev.count / totalEntries) * 100).toFixed(2);
 
@@ -43,6 +50,8 @@ shuffle(repeated);
 
 try {
   fs.writeFileSync("wheelOfDeathList.txt", repeated.join("\n"));
+  fs.writeFileSync("oddsDisplay.json", JSON.stringify(oddsDisplay, null, 2));
+  console.log("✅ Generated wheelOfDeathList.txt and updated oddsDisplay.json");
 } catch (err) {
   console.error(err);
 }
