@@ -1,10 +1,11 @@
 const fs = require("node:fs");
+const readline = require("node:readline");
 
 // Configuration for the gamification system
 const GAMIFICATION_CONFIG = {
   baseSuperheroReduction: 1.0, // Base reduction when becoming superhero
   baseNonSuperheroIncrease: 1.0, // Base increase when not becoming superhero (and no guess)
-  correctGuessBonusRate: 0.3, // Additional bonus multiplier for correct guesses (higher = more reward)
+  correctGuessBonusRate: 0.5, // Additional bonus multiplier for correct guesses (higher = more reward)
   wrongGuessBasePenalty: 0.0, // Base penalty for any wrong guess (must exceed base increase)
   wrongGuessPenaltyScaling: 5.0, // Additional penalty scaling for likely guesses
   minWeight: 0.5, // Minimum weight to prevent going to zero
@@ -225,6 +226,111 @@ function showCurrentProbabilities() {
   }
 }
 
+/**
+ * Interactive mode to collect predictions and winner
+ * @param {boolean} dryRun - If true, only show changes without saving to file
+ */
+async function runInteractiveMode(dryRun = false) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const question = (prompt) => {
+    return new Promise((resolve) => {
+      rl.question(prompt, resolve);
+    });
+  };
+
+  try {
+    // Read current config to get team members
+    const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+    const teamMembers = config.map((dev) => dev.name);
+
+    console.log("🎯 Interactive Superhero Prediction Mode");
+    console.log("========================================");
+
+    if (dryRun) {
+      console.log("🔍 DRY RUN MODE - No changes will be saved\n");
+    }
+
+    // Show current probabilities
+    showCurrentProbabilities();
+
+    // Collect predictions
+    const predictions = [];
+    console.log("📝 Collecting predictions...\n");
+
+    for (const person of teamMembers) {
+      const didGuess = await question(`Did ${person} make a guess? (y/n): `);
+
+      if (didGuess.toLowerCase() === "y" || didGuess.toLowerCase() === "yes") {
+        console.log(`Available options: ${teamMembers.join(", ")}`);
+        const guess = await question(`Who did ${person} guess would win? `);
+
+        // Validate the guess
+        if (teamMembers.includes(guess)) {
+          predictions.push({ person, guess });
+          console.log(`✅ ${person} guessed ${guess}\n`);
+        } else {
+          console.log(`❌ Invalid guess "${guess}". Skipping ${person}.\n`);
+        }
+      } else {
+        console.log(`📝 ${person} made no guess\n`);
+      }
+    }
+
+    // Get the actual winner
+    console.log("🎰 Now for the big reveal...");
+    console.log(`Available options: ${teamMembers.join(", ")}`);
+    const actualWinner = await question(
+      "Who actually won the superhero selection? ",
+    );
+
+    // Validate winner
+    if (!teamMembers.includes(actualWinner)) {
+      console.log(`❌ Invalid winner "${actualWinner}". Exiting.`);
+      rl.close();
+      return;
+    }
+
+    console.log(`\n🎉 ${actualWinner} is the new superhero!\n`);
+
+    // Show prediction summary
+    console.log("📋 Prediction Summary:");
+    console.log("=====================");
+    predictions.forEach(({ person, guess }) => {
+      const isCorrect = guess === actualWinner;
+      console.log(`  ${person}: ${guess} ${isCorrect ? "✅" : "❌"}`);
+    });
+
+    const noGuessers = teamMembers.filter(
+      (person) => !predictions.some((p) => p.person === person),
+    );
+    if (noGuessers.length > 0) {
+      console.log("  No guesses: " + noGuessers.join(", "));
+    }
+    console.log();
+
+    // Apply updates
+    updateAllWeights(predictions, actualWinner, teamMembers, dryRun);
+
+    if (dryRun) {
+      console.log(
+        "🔍 This was a dry run. Run without --dry-run to apply changes.",
+      );
+    } else {
+      console.log(
+        "✅ All weights updated! Run 'node superHero.js' to generate new wheel list.",
+      );
+    }
+  } catch (error) {
+    console.error("Error in interactive mode:", error.message);
+  } finally {
+    rl.close();
+  }
+}
+
 // Command line interface
 if (require.main === module) {
   const args = process.argv.slice(2);
@@ -232,7 +338,11 @@ if (require.main === module) {
   if (args.length === 0) {
     console.log("🦸 Superhero Weight Updater");
     console.log("\nUsage:");
-    console.log("  Single person update:");
+    console.log("  Interactive mode (recommended):");
+    console.log("    node updateWeights.js --interactive");
+    console.log("    node updateWeights.js -i");
+    console.log("    (Walks through each person's guess interactively)");
+    console.log("\n  Single person update:");
     console.log(
       "    node updateWeights.js <person> <actual_winner> [guessed_winner]",
     );
@@ -253,6 +363,7 @@ if (require.main === module) {
     console.log("    node updateWeights.js --show");
     console.log("\n  Dry run (preview changes without saving):");
     console.log("    Add --dry-run to any command to preview changes");
+    console.log("    Example: node updateWeights.js --dry-run --interactive");
     console.log("    Example: node updateWeights.js --dry-run Johan Ali Sam");
     process.exit(0);
   }
@@ -265,7 +376,9 @@ if (require.main === module) {
     console.log("🔍 DRY RUN MODE - No changes will be saved to config.json\n");
   }
 
-  if (filteredArgs[0] === "--show") {
+  if (filteredArgs[0] === "--interactive" || filteredArgs[0] === "-i") {
+    runInteractiveMode(dryRun);
+  } else if (filteredArgs[0] === "--show") {
     showCurrentProbabilities();
   } else if (filteredArgs[0] === "--batch" && filteredArgs.length === 3) {
     try {
@@ -296,5 +409,6 @@ module.exports = {
   updateAllWeights,
   calculateTotalWeightAdjustment,
   showCurrentProbabilities,
+  runInteractiveMode,
   GAMIFICATION_CONFIG,
 };

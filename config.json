@@ -1,15 +1,15 @@
 [
   {
     "name": "Ali",
-    "count": 4.3122
+    "count": 4
   },
   {
     "name": "Johan",
-    "count": 2.8738
+    "count": 3
   },
   {
     "name": "Sam",
-    "count": 9
+    "count": 7
   },
   {
     "name": "Kemila",
@@ -17,6 +17,6 @@
   },
   {
     "name": "Dom",
-    "count": 8
+    "count": 6
   }
 ]
