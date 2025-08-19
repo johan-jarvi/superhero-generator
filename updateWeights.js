@@ -211,7 +211,7 @@ function showCurrentProbabilities() {
     const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
     const totalWeight = config.reduce((sum, dev) => sum + dev.count, 0);
 
-    console.log("📊 Updated Probabilities:");
+    console.log("📊 Current Probabilities:");
     config
       .sort((a, b) => b.count - a.count)
       .forEach((dev) => {
@@ -397,7 +397,29 @@ if (require.main === module) {
     const guessedWinner = filteredArgs[2] || null;
     console.log(`🎯 Processing single person update...\n`);
     updatePersonWeight(person, actualWinner, guessedWinner, dryRun);
-    showCurrentProbabilities();
+
+    // Show updated probabilities after single update
+    if (!dryRun) {
+      console.log("📊 Updated Probabilities:");
+      const updatedConfig = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+      const updatedTotalWeight = updatedConfig.reduce(
+        (sum, dev) => sum + dev.count,
+        0,
+      );
+      updatedConfig
+        .sort((a, b) => b.count - a.count)
+        .forEach((dev) => {
+          const percentage = ((dev.count / updatedTotalWeight) * 100).toFixed(
+            2,
+          );
+          console.log(
+            `  ${dev.name}: ${percentage}% (weight: ${dev.count.toFixed(4)})`,
+          );
+        });
+      console.log();
+    } else {
+      showCurrentProbabilities();
+    }
   } else {
     console.error("Invalid arguments. Use no arguments to see usage help.");
     process.exit(1);
