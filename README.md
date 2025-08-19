@@ -85,16 +85,22 @@ This creates:
 
 3. **Copy `wheelOfDeathList.txt`** content into [wheelofnames.com](https://wheelofnames.com)
 
-4. **Spin the wheel** and celebrate! 🎉
+4. **Generate presentable odds** for the team:
+   ```bash
+   ./generateOddsMarkdown.sh
+   ```
+   Share `ODDS.md` with the team to show current probabilities before predictions
+
+5. **Spin the wheel** and celebrate! 🎉
 
 ### After the Ceremony
 
-5. **Update weights** (if you used dry-run mode):
+6. **Update weights** (if you used dry-run mode):
    ```bash
    node updateWeights.js --interactive
    ```
 
-6. **Generate final files**:
+7. **Generate final files**:
    ```bash
    node superHero.js
    ./generateOddsMarkdown.sh
