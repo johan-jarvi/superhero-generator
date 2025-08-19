@@ -157,7 +157,7 @@ If current probabilities are Sam=30%, Ali=15%, Dom=25%, Johan=20%, Kemila=10%:
 3. **Run interactive mode**: `node updateWeights.js --interactive`
    - It will ask about each person's guess and the winner
 4. **Optional**: Use `--dry-run` first to preview changes
-5. **Generate new wheelOfDeathList.txt**: `node superHero.js`
+5. **Generate new wheelOfNamesInput.txt**: `node superHero.js`
 6. **Repeat for next sprint!**
 
 ## 🔍 Pro Tips

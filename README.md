@@ -44,7 +44,7 @@ node superHero.js
 ```
 
 This creates:
-- `wheelOfDeathList.txt` - Copy this into [wheelofnames.com](https://wheelofnames.com)
+- `wheelOfNamesInput.txt` - Copy this into [wheelofnames.com](https://wheelofnames.com)
 - `oddsDisplay.json` - Current probability data
 
 ## 🎯 How It Works
@@ -83,7 +83,7 @@ This creates:
    node superHero.js
    ```
 
-3. **Copy `wheelOfDeathList.txt`** content into [wheelofnames.com](https://wheelofnames.com)
+3. **Copy `wheelOfNamesInput.txt`** content into [wheelofnames.com](https://wheelofnames.com)
 
 4. **Generate presentable odds** for the team:
    ```bash
@@ -185,7 +185,7 @@ retro/
 ├── updateWeights.js       # Weight update system
 ├── generateOddsMarkdown.sh # Markdown generator
 ├── examples.sh            # Quick command reference
-├── wheelOfDeathList.txt   # Generated wheel list
+├── wheelOfNamesInput.txt  # Generated wheel list
 ├── oddsDisplay.json       # Current probabilities
 └── ODDS.md               # Generated odds display
 ```

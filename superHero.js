@@ -51,9 +51,11 @@ const repeated = onlyPositives.flatMap((dev) => {
 shuffle(repeated);
 
 try {
-  fs.writeFileSync("wheelOfDeathList.txt", repeated.join("\n"));
+  fs.writeFileSync("wheelOfNamesInput.txt", repeated.join("\n"));
   fs.writeFileSync("oddsDisplay.json", JSON.stringify(oddsDisplay, null, 2));
-  console.log("✅ Generated wheelOfDeathList.txt and updated oddsDisplay.json");
+  console.log(
+    "✅ Generated wheelOfNamesInput.txt and updated oddsDisplay.json",
+  );
 } catch (err) {
   console.error(err);
 }

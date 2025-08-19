@@ -338,7 +338,7 @@ async function runInteractiveMode(dryRun = false) {
       );
     } else {
       console.log(
-        "✅ All weights updated! Run 'node superHero.js' to generate new wheel list.",
+        "✅ All weights updated! Run 'node superHero.js' to generate new wheelOfNamesInput.txt.",
       );
     }
   } catch (error) {
