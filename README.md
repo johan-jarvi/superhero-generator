@@ -42,7 +42,9 @@ Example of what gets created:
 
 **Important**: Keep the `io/` folder locally! Each team should maintain their own configuration with their specific team members and weights.
 
-### 2. Install Dependencies
+### 2. (Optional) Install Dependencies
+
+At this point the only dependency is a dev dep for prettier so this step is optional
 
 ```bash
 npm install
