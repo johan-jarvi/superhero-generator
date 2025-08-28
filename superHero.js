@@ -61,7 +61,10 @@ try {
   console.log(
     "✅ Generated io/wheelOfNamesInput.txt and updated io/oddsDisplay.json",
   );
-  console.log("Now run 'node spinTheWheel.js -i'");
+  console.log(
+    "Now you can optionally run './generateOddsMarkdown.sh' to get a markdown display for current odds.",
+  );
+  console.log("And/or run 'node spinTheWheel.js -i' to begin.");
 } catch (err) {
   console.error(err);
 }
