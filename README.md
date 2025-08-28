@@ -6,7 +6,9 @@ A gamified weighted lottery system for selecting sprint superheroes during team 
 
 ### 1. Setup Configuration
 
-Create a `config.json` file with your team members and their initial weights:
+Create the directory `io/`.
+
+Add this file `io/config.json` file with your team members and their initial weights:
 
 ```json
 [
@@ -44,8 +46,19 @@ node superHero.js
 ```
 
 This creates:
-- `wheelOfNamesInput.txt` - Copy this into [wheelofnames.com](https://wheelofnames.com)
-- `oddsDisplay.json` - Current probability data
+- `io/wheelOfNamesInput.txt` - Used to be copied into [wheelofnames.com](https://wheelofnames.com)
+- `io/oddsDisplay.json` - Current probability data and used to generate `io/ODDS.md` for nicer display of probabilities
+
+### 4. Run generateOddsMarkdown.sh
+
+This creates:
+- `io/ODDS.md` - Markdown file with probabilities for each team member
+
+### 5. Perform the Superhero Selection in Interactive Mode
+
+```bash
+node updateWeights.js --interactive
+```
 
 ## 🎯 How It Works
 
