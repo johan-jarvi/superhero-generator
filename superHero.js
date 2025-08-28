@@ -61,7 +61,7 @@ try {
   console.log(
     "✅ Generated io/wheelOfNamesInput.txt and updated io/oddsDisplay.json",
   );
-  console.log("Now run 'node updateWeights.js'");
+  console.log("Now run 'node spinTheWheel.js -i'");
 } catch (err) {
   console.error(err);
 }

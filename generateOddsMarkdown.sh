@@ -72,7 +72,7 @@ cat >> "$OUTPUT_FILE" << EOF
 
 ## How to Update
 
-1. Make prediction updates: \`node updateWeights.js --interactive\`
+1. Make prediction updates: \`node spinTheWheel.js --interactive\`
 2. Generate new wheel: \`node superHero.js\`
 3. Update this file: \`./generateOddsMarkdown.sh\`
 

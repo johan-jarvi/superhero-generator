@@ -66,7 +66,7 @@ This creates:
 ### 5. Perform the Superhero Selection in Interactive Mode
 
 ```bash
-node updateWeights.js --interactive
+node spinTheWheel.js --interactive
 ```
 
 ## 🎯 How It Works
@@ -107,9 +107,9 @@ node updateWeights.js --interactive
 4. **Collect predictions** (before spinning):
    ```bash
    # Interactive mode - walks through each person
-   node updateWeights.js --interactive
+   node spinTheWheel.js --interactive
    # Or preview changes first
-   node updateWeights.js --dry-run --interactive
+   node spinTheWheel.js --dry-run --interactive
    ```
 
 5. **Spin the wheel** before finalising the previous step and get the updated results! 🎉
@@ -127,20 +127,20 @@ node setup.js
 
 ```bash
 # Interactive mode (recommended)
-node updateWeights.js --interactive
-node updateWeights.js -i
+node spinTheWheel.js --interactive
+node spinTheWheel.js -i
 
 # Preview changes without saving
-node updateWeights.js --dry-run --interactive
+node spinTheWheel.js --dry-run --interactive
 
 # Manual single update
-node updateWeights.js <person> <actual_winner> [guessed_winner]
+node spinTheWheel.js <person> <actual_winner> [guessed_winner]
 
 # Manual batch update
-node updateWeights.js --batch '[{"person":"Alice","guess":"Bob"}]' Charlie
+node spinTheWheel.js --batch '[{"person":"Alice","guess":"Bob"}]' Charlie
 
 # Show current probabilities
-node updateWeights.js --show
+node spinTheWheel.js --show
 ```
 
 ### File Generation
@@ -197,7 +197,7 @@ retro/
 ├── EXAMPLES.md            # Detailed usage examples
 ├── setup.js               # Initial configuration setup
 ├── superHero.js           # Main wheel generator
-├── updateWeights.js       # Weight update system
+├── spinTheWheel.js        # Weight update system
 ├── generateOddsMarkdown.sh # Markdown generator
 ├── examples.sh            # Quick command reference
 └── io/                    # Team-specific data (gitignored)
@@ -212,9 +212,9 @@ retro/
 ### For the Retro Facilitator
 
 1. **Always use dry-run first** to preview changes
-2. **Keep config.json in version control** for your team
+2. **Keep io/config.json in version control** for your team
 3. **Update .gitignore** to exclude sensitive files if needed
-4. **Share ODDS.md** with the team for transparency
+4. **Share io/ODDS.md** with the team for transparency
 
 ### For the Team
 
@@ -233,14 +233,14 @@ retro/
 # Add their name to excludedDevelopersList in superHero.js
 
 # Adjust gamification parameters
-# Edit GAMIFICATION_CONFIG in updateWeights.js
+# Edit GAMIFICATION_CONFIG in spinTheWheel.js
 ```
 
 ## 🔧 Configuration Options
 
 ### Gamification Tuning
 
-Edit `GAMIFICATION_CONFIG` in `updateWeights.js`:
+Edit `GAMIFICATION_CONFIG` in `spinTheWheel.js`:
 
 ```javascript
 const GAMIFICATION_CONFIG = {

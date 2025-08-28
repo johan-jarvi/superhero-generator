@@ -37,7 +37,9 @@ async function createInitialConfig() {
   try {
     // Get team members
     const teamMembers = [];
-    console.log("Enter your team members (press Enter with empty name when done):");
+    console.log(
+      "Enter your team members (press Enter with empty name when done):",
+    );
 
     let memberIndex = 1;
     while (true) {
@@ -48,8 +50,14 @@ async function createInitialConfig() {
       }
 
       // Check for duplicates
-      if (teamMembers.some(member => member.toLowerCase() === name.trim().toLowerCase())) {
-        console.log("⚠️  That name is already added. Please enter a different name.");
+      if (
+        teamMembers.some(
+          (member) => member.toLowerCase() === name.trim().toLowerCase(),
+        )
+      ) {
+        console.log(
+          "⚠️  That name is already added. Please enter a different name.",
+        );
         continue;
       }
 
@@ -64,11 +72,15 @@ async function createInitialConfig() {
     }
 
     // Get initial weight
-    console.log(`\nFound ${teamMembers.length} team members: ${teamMembers.join(", ")}`);
+    console.log(
+      `\nFound ${teamMembers.length} team members: ${teamMembers.join(", ")}`,
+    );
 
     let initialWeight;
     while (true) {
-      const weightInput = await question("\nEnter initial weight for all members (default: 5.0): ");
+      const weightInput = await question(
+        "\nEnter initial weight for all members (default: 5.0): ",
+      );
 
       if (!weightInput.trim()) {
         initialWeight = 5.0;
@@ -86,9 +98,9 @@ async function createInitialConfig() {
     }
 
     // Create config object
-    const config = teamMembers.map(name => ({
+    const config = teamMembers.map((name) => ({
       name: name,
-      count: initialWeight
+      count: initialWeight,
     }));
 
     // Write config file
@@ -96,16 +108,17 @@ async function createInitialConfig() {
 
     console.log("\n✅ Successfully created io/config.json!");
     console.log("\nInitial configuration:");
-    config.forEach(member => {
+    config.forEach((member) => {
       console.log(`  ${member.name}: ${member.count}`);
     });
 
     console.log("\n🎯 Next steps:");
     console.log("1. Run 'node superHero.js' to generate your first wheel");
     console.log("2. Copy io/wheelOfNamesInput.txt content to wheelofnames.com");
-    console.log("3. Use 'node updateWeights.js --interactive' after each selection");
+    console.log(
+      "3. Use 'node spinTheWheel.js --interactive' after each selection",
+    );
     console.log("\n🎉 Happy superhero selecting!");
-
   } catch (error) {
     console.error("❌ Error during setup:", error.message);
   } finally {
@@ -119,5 +132,5 @@ if (require.main === module) {
 }
 
 module.exports = {
-  createInitialConfig
+  createInitialConfig,
 };

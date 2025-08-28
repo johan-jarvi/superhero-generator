@@ -366,32 +366,32 @@ if (require.main === module) {
     console.log("🦸 Superhero Weight Update System");
     console.log("\nUsage:");
     console.log("  Interactive mode (recommended for sprint ceremonies):");
-    console.log("    node updateWeights.js --interactive");
-    console.log("    node updateWeights.js -i");
+    console.log("    node spinTheWheel.js --interactive");
+    console.log("    node spinTheWheel.js -i");
     console.log("    (Walks through each person's prediction interactively)");
     console.log("\n  Single person weight update:");
     console.log(
-      "    node updateWeights.js <person> <superhero_winner> [prediction]",
+      "    node spinTheWheel.js <person> <superhero_winner> [prediction]",
     );
     console.log(
-      "    Example: node updateWeights.js Johan Ali Sam  (Johan predicted Sam, Ali won)",
+      "    Example: node spinTheWheel.js Johan Ali Sam  (Johan predicted Sam, Ali won)",
     );
     console.log(
-      "    Example: node updateWeights.js Johan Ali      (Johan made no prediction, Ali won)",
+      "    Example: node spinTheWheel.js Johan Ali      (Johan made no prediction, Ali won)",
     );
     console.log("\n  Batch update (processes whole team):");
     console.log(
-      '    node updateWeights.js --batch \'[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"}]\' <superhero_winner>',
+      '    node spinTheWheel.js --batch \'[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"}]\' <superhero_winner>',
     );
     console.log(
       "    Note: People not in predictions list are treated as 'no prediction'",
     );
     console.log("\n  Show current odds:");
-    console.log("    node updateWeights.js --show");
+    console.log("    node spinTheWheel.js --show");
     console.log("\n  Dry run (preview weight changes without saving):");
     console.log("    Add --dry-run to any command to preview changes");
-    console.log("    Example: node updateWeights.js --dry-run --interactive");
-    console.log("    Example: node updateWeights.js --dry-run Johan Ali Sam");
+    console.log("    Example: node spinTheWheel.js --dry-run --interactive");
+    console.log("    Example: node spinTheWheel.js --dry-run Johan Ali Sam");
     console.log("\n  Note: Config and output files are stored in io/ folder");
     process.exit(0);
   }

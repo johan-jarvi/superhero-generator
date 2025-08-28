@@ -23,11 +23,11 @@ Copy the content from `wheelOfNamesInput.txt` into [wheelofnames.com](https://wh
 ### Step 4: Collect Predictions and Update Weights
 ```bash
 # Interactive mode - walks through each person's predictions
-node updateWeights.js --interactive
-node updateWeights.js -i  # short form
+node spinTheWheel.js --interactive
+node spinTheWheel.js -i  # short form
 
 # Preview mode - see what would happen without saving
-node updateWeights.js --dry-run --interactive
+node spinTheWheel.js --dry-run --interactive
 ```
 
 ### Step 5: Spin the Wheel
@@ -106,28 +106,28 @@ Enter the superhero winner: Ali
 
 ### Check Current Odds
 ```bash
-node updateWeights.js --show
+node spinTheWheel.js --show
 ```
 
 ### Single Person Updates
 ```bash
 # Johan predicted Sam would win, but Ali actually won
-node updateWeights.js Johan Ali Sam
+node spinTheWheel.js Johan Ali Sam
 
 # Kemila made no prediction, Dom won
-node updateWeights.js Kemila Dom
+node spinTheWheel.js Kemila Dom
 
 # Dom predicted himself and won (correct prediction + became superhero)
-node updateWeights.js Dom Dom Dom
+node spinTheWheel.js Dom Dom Dom
 ```
 
 ### Dry Run - Preview Changes Without Saving
 ```bash
 # Preview what would happen if Johan predicted Sam but Ali won
-node updateWeights.js --dry-run Johan Ali Sam
+node spinTheWheel.js --dry-run Johan Ali Sam
 
 # Preview batch update without making changes
-node updateWeights.js --dry-run --batch '[{"person":"Johan","guess":"Sam"}]' Ali
+node spinTheWheel.js --dry-run --batch '[{"person":"Johan","guess":"Sam"}]' Ali
 ```
 
 ### Manual Batch Update for Whole Team
@@ -140,7 +140,7 @@ node updateWeights.js --dry-run --batch '[{"person":"Johan","guess":"Sam"}]' Ali
 # Sam predicted: Johan
 
 # Scenario A: Sam actually won
-node updateWeights.js --batch '[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"},{"person":"Kemila","guess":"Ali"},{"person":"Sam","guess":"Johan"}]' Sam
+node spinTheWheel.js --batch '[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"},{"person":"Kemila","guess":"Ali"},{"person":"Sam","guess":"Johan"}]' Sam
 
 # Note: Dom automatically gets base rules since he's not in predictions list
 ```
@@ -148,7 +148,7 @@ node updateWeights.js --batch '[{"person":"Johan","guess":"Sam"},{"person":"Ali"
 ### Different Winner Scenario
 ```bash
 # Same predictions, but Ali won instead:
-node updateWeights.js --batch '[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"},{"person":"Kemila","guess":"Ali"},{"person":"Sam","guess":"Johan"}]' Ali
+node spinTheWheel.js --batch '[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"},{"person":"Kemila","guess":"Ali"},{"person":"Sam","guess":"Johan"}]' Ali
 ```
 
 ## 📈 Weight Change Breakdown Examples
@@ -200,9 +200,9 @@ If current odds are Sam=30%, Ali=15%, Dom=25%, Johan=20%, Kemila=10%:
 4. **Collect predictions** (before spinning):
    ```bash
    # Interactive mode - walks through each person
-   node updateWeights.js --interactive
+   node spinTheWheel.js --interactive
    # Or preview changes first
-   node updateWeights.js --dry-run --interactive
+   node spinTheWheel.js --dry-run --interactive
    ```
 
 5. **Spin the wheel** - the interactive mode will prompt you at the right time! 🎉
@@ -217,13 +217,13 @@ If current odds are Sam=30%, Ali=15%, Dom=25%, Johan=20%, Kemila=10%:
 ### Always Preview First
 ```bash
 # Use dry run to preview changes before committing
-node updateWeights.js --dry-run --interactive
+node spinTheWheel.js --dry-run --interactive
 ```
 
 ### Check Results
 ```bash
 # After updating, check the new odds
-node updateWeights.js --show
+node spinTheWheel.js --show
 ```
 
 ### Generate New Wheel
