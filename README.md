@@ -6,9 +6,18 @@ A gamified weighted lottery system for selecting sprint superheroes during team 
 
 ### 1. Setup Configuration
 
-Create the directory `io/`.
+Run the setup script to create your initial team configuration:
 
-Add this file `io/config.json` file with your team members and their initial weights:
+```bash
+node setup.js
+```
+
+This will:
+- Create the `io/` directory if it doesn't exist
+- Walk you through adding your team members
+- Generate `io/config.json` with initial weights (default: 5.0 for everyone)
+
+Example of what gets created:
 
 ```json
 [
@@ -31,7 +40,7 @@ Add this file `io/config.json` file with your team members and their initial wei
 ]
 ```
 
-**Important**: Keep this file locally! Each team should maintain their own `config.json` with their specific team members and weights.
+**Important**: Keep the `io/` folder locally! Each team should maintain their own configuration with their specific team members and weights.
 
 ### 2. Install Dependencies
 
@@ -91,9 +100,9 @@ node updateWeights.js --interactive
    ```bash
    ./generateOddsMarkdown.sh
    ```
-   Share `ODDS.md` with the team to show current probabilities before predictions
+   Share `io/ODDS.md` with the team to show current probabilities before predictions
 
-3. **Copy `wheelOfNamesInput.txt`** content into [wheelofnames.com](https://wheelofnames.com)
+3. **Copy `io/wheelOfNamesInput.txt`** content into [wheelofnames.com](https://wheelofnames.com)
 
 4. **Collect predictions** (before spinning):
    ```bash
@@ -106,6 +115,13 @@ node updateWeights.js --interactive
 5. **Spin the wheel** before finalising the previous step and get the updated results! 🎉
 
 ## 🛠️ Available Commands
+
+### Initial Setup
+
+```bash
+# Create initial team configuration
+node setup.js
+```
 
 ### Weight Management
 
@@ -179,14 +195,16 @@ If Alice (30%), Bob (20%), Charlie (15%) are the current odds:
 retro/
 ├── README.md              # This file
 ├── EXAMPLES.md            # Detailed usage examples
-├── config.json            # Team configuration (create this!)
+├── setup.js               # Initial configuration setup
 ├── superHero.js           # Main wheel generator
 ├── updateWeights.js       # Weight update system
 ├── generateOddsMarkdown.sh # Markdown generator
 ├── examples.sh            # Quick command reference
-├── wheelOfNamesInput.txt  # Generated wheel list
-├── oddsDisplay.json       # Current probabilities
-└── ODDS.md               # Generated odds display
+└── io/                    # Team-specific data (gitignored)
+    ├── config.json        # Team configuration
+    ├── wheelOfNamesInput.txt # Generated wheel list
+    ├── oddsDisplay.json   # Current probabilities
+    └── ODDS.md           # Generated odds display
 ```
 
 ## 🎮 Pro Tips
@@ -209,7 +227,7 @@ retro/
 
 ```bash
 # Reset everyone to equal weights
-# Edit config.json to set all counts to 5.0
+# Edit io/config.json to set all counts to 5.0
 
 # Exclude someone temporarily (on leave)
 # Add their name to excludedDevelopersList in superHero.js
@@ -249,19 +267,19 @@ const excludedDevelopersList = ["PersonOnLeave", "AnotherPerson"];
 ### Common Issues
 
 **"Person not found in config"**
-- Check spelling in `config.json`
+- Check spelling in `io/config.json`
 - Ensure all team members are listed
 
 **"Invalid JSON format"**
-- Validate `config.json` syntax
+- Validate `io/config.json` syntax
 - Use proper quotes and commas
 
 **"Permission denied"**
 - Make scripts executable: `chmod +x *.sh`
 
 **Weights seem unbalanced**
-- Check ODDS.md for current distribution
-- Adjust weights manually in config.json if needed
+- Check `io/ODDS.md` for current distribution
+- Adjust weights manually in `io/config.json` if needed
 
 ### Getting Help
 
