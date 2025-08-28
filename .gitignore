@@ -1,6 +1,7 @@
-config.json
 node_modules
 dist
 
-# This file is personal for each team
+# Files that are custom to each team
+config.json
 ODDS.md
+wheelOfNamesInput.txt
