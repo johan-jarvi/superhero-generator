@@ -3,6 +3,11 @@ const fs = require("node:fs");
 // If someone goes on leave we add them here so that we can increment in config but exclude.
 const excludedDevelopersList = [];
 
+// Ensure io directory exists
+if (!fs.existsSync("io")) {
+  fs.mkdirSync("io");
+}
+
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -20,7 +25,7 @@ function shuffle(array) {
   return array;
 }
 
-const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
 
 const lowercasedExclusions = excludedDevelopersList.map((e) => e.toLowerCase());
 
@@ -51,10 +56,10 @@ const repeated = onlyPositives.flatMap((dev) => {
 shuffle(repeated);
 
 try {
-  fs.writeFileSync("wheelOfNamesInput.txt", repeated.join("\n"));
-  fs.writeFileSync("oddsDisplay.json", JSON.stringify(oddsDisplay, null, 2));
+  fs.writeFileSync("io/wheelOfNamesInput.txt", repeated.join("\n"));
+  fs.writeFileSync("io/oddsDisplay.json", JSON.stringify(oddsDisplay, null, 2));
   console.log(
-    "✅ Generated wheelOfNamesInput.txt and updated oddsDisplay.json",
+    "✅ Generated io/wheelOfNamesInput.txt and updated io/oddsDisplay.json",
   );
 } catch (err) {
   console.error(err);

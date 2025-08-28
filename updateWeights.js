@@ -1,6 +1,11 @@
 const fs = require("node:fs");
 const readline = require("node:readline");
 
+// Ensure io directory exists
+if (!fs.existsSync("io")) {
+  fs.mkdirSync("io");
+}
+
 // Configuration for the gamification system
 const GAMIFICATION_CONFIG = {
   baseSuperheroReduction: 1.0, // Base reduction when becoming superhero
@@ -117,7 +122,7 @@ function updatePersonWeight(
 ) {
   try {
     // Read current config
-    const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+    const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
 
     // Find the person making the prediction
     const personIndex = config.findIndex((dev) => dev.name === personName);
@@ -156,8 +161,8 @@ function updatePersonWeight(
 
     // Save updated config (unless dry run)
     if (!dryRun) {
-      fs.writeFileSync("config.json", JSON.stringify(config, null, 2));
-      console.log(`  ✅ Updated config.json\n`);
+      fs.writeFileSync("io/config.json", JSON.stringify(config, null, 2));
+      console.log(`  ✅ Updated io/config.json\n`);
     } else {
       console.log(`  🔍 Dry run - no changes saved\n`);
     }
@@ -183,7 +188,7 @@ function updateAllWeights(
 
   // Read config to get all team members if not provided
   if (!allTeamMembers) {
-    const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+    const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
     allTeamMembers = config.map((dev) => dev.name);
   }
 
@@ -208,7 +213,7 @@ function updateAllWeights(
  */
 function showCurrentProbabilities() {
   try {
-    const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+    const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
 
     // Filter out excluded and zero-count members (same as superHero.js)
     const excludedDevelopersList = [];
@@ -261,7 +266,7 @@ async function runInteractiveMode(dryRun = false) {
 
   try {
     // Read current config to get team members
-    const config = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+    const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
     const teamMembers = config.map((dev) => dev.name);
 
     console.log("🎯 Interactive Superhero Prediction Mode");
@@ -343,7 +348,7 @@ async function runInteractiveMode(dryRun = false) {
       );
     } else {
       console.log(
-        "✅ All weights updated! Run 'node superHero.js' to generate new wheelOfNamesInput.txt.",
+        "✅ All weights updated and saved! Run 'node superHero.js' to generate updated wheel.",
       );
     }
   } catch (error) {
@@ -358,35 +363,36 @@ if (require.main === module) {
   const args = process.argv.slice(2);
 
   if (args.length === 0) {
-    console.log("🦸 Superhero Weight Updater");
+    console.log("🦸 Superhero Weight Update System");
     console.log("\nUsage:");
-    console.log("  Interactive mode (recommended):");
+    console.log("  Interactive mode (recommended for sprint ceremonies):");
     console.log("    node updateWeights.js --interactive");
     console.log("    node updateWeights.js -i");
-    console.log("    (Walks through each person's guess interactively)");
-    console.log("\n  Single person update:");
+    console.log("    (Walks through each person's prediction interactively)");
+    console.log("\n  Single person weight update:");
     console.log(
-      "    node updateWeights.js <person> <actual_winner> [guessed_winner]",
+      "    node updateWeights.js <person> <superhero_winner> [prediction]",
     );
     console.log(
-      "    Example: node updateWeights.js Johan Ali Sam  (Johan guessed Sam, Ali won)",
+      "    Example: node updateWeights.js Johan Ali Sam  (Johan predicted Sam, Ali won)",
     );
     console.log(
-      "    Example: node updateWeights.js Johan Ali      (Johan made no guess, Ali won)",
+      "    Example: node updateWeights.js Johan Ali      (Johan made no prediction, Ali won)",
     );
-    console.log("\n  Batch update (processes everyone):");
+    console.log("\n  Batch update (processes whole team):");
     console.log(
-      '    node updateWeights.js --batch \'[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"}]\' <actual_winner>',
+      '    node updateWeights.js --batch \'[{"person":"Johan","guess":"Sam"},{"person":"Ali","guess":"Dom"}]\' <superhero_winner>',
     );
     console.log(
-      "    Note: People not in predictions list are treated as 'no guess'",
+      "    Note: People not in predictions list are treated as 'no prediction'",
     );
-    console.log("\n  Show current probabilities:");
+    console.log("\n  Show current odds:");
     console.log("    node updateWeights.js --show");
-    console.log("\n  Dry run (preview changes without saving):");
+    console.log("\n  Dry run (preview weight changes without saving):");
     console.log("    Add --dry-run to any command to preview changes");
     console.log("    Example: node updateWeights.js --dry-run --interactive");
     console.log("    Example: node updateWeights.js --dry-run Johan Ali Sam");
+    console.log("\n  Note: Config and output files are stored in io/ folder");
     process.exit(0);
   }
 
@@ -423,7 +429,9 @@ if (require.main === module) {
     // Show updated probabilities after single update
     if (!dryRun) {
       console.log("📊 Updated Probabilities:");
-      const updatedConfig = JSON.parse(fs.readFileSync("config.json", "utf-8"));
+      const updatedConfig = JSON.parse(
+        fs.readFileSync("io/config.json", "utf-8"),
+      );
 
       // Filter and use rounded counts for actual wheel odds
       const excludedDevelopersList = [];

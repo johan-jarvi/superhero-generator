@@ -2,7 +2,4 @@ node_modules
 dist
 
 # Files that are custom to each team
-config.json
-oddsDisplay.json
-ODDS.md
-wheelOfNamesInput.txt
+io/

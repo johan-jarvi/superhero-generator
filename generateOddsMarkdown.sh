@@ -3,8 +3,8 @@
 # Generate odds markdown from oddsDisplay.json
 # Usage: ./generateOddsMarkdown.sh
 
-OUTPUT_FILE="ODDS.md"
-JSON_FILE="oddsDisplay.json"
+OUTPUT_FILE="io/ODDS.md"
+JSON_FILE="io/oddsDisplay.json"
 
 # Check if oddsDisplay.json exists
 if [ ! -f "$JSON_FILE" ]; then
