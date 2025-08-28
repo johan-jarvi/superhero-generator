@@ -59,12 +59,11 @@ try {
   fs.writeFileSync("io/wheelOfNamesInput.txt", repeated.join("\n"));
   fs.writeFileSync("io/oddsDisplay.json", JSON.stringify(oddsDisplay, null, 2));
   console.log(
-    "✅ Generated io/wheelOfNamesInput.txt and updated io/oddsDisplay.json",
+    "✅ Generated io/wheelOfNamesInput.txt and updated io/oddsDisplay.json.\n👉 Copy the contents of wheelOfNamesInput.text into https://wheelofnames.com/.\n",
   );
   console.log(
-    "Now you can optionally run './generateOddsMarkdown.sh' to get a markdown display for current odds.",
+    "ℹ️  You can now also optionally run './generateOddsMarkdown.sh' to get a markdown display for current odds; and then run 'node spinTheWheel.js -i' to begin.",
   );
-  console.log("And/or run 'node spinTheWheel.js -i' to begin.");
 } catch (err) {
   console.error(err);
 }
