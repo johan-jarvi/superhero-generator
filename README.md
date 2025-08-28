@@ -15,7 +15,7 @@ Create a `config.json` file with your team members and their initial weights:
     "count": 5.0
   },
   {
-    "name": "Bob", 
+    "name": "Bob",
     "count": 5.0
   },
   {
@@ -69,42 +69,28 @@ This creates:
 
 ### During Retrospective
 
-1. **Collect predictions** (before spinning):
-   ```bash
-   # Interactive mode - walks through each person
-   node updateWeights.js --interactive
-   
-   # Or preview changes first
-   node updateWeights.js --dry-run --interactive
-   ```
-
-2. **Generate wheel list**:
+1. **Generate wheel list if you haven't already**:
    ```bash
    node superHero.js
    ```
 
-3. **Copy `wheelOfNamesInput.txt`** content into [wheelofnames.com](https://wheelofnames.com)
-
-4. **Generate presentable odds** for the team:
+2. **Generate presentable odds** for the team:
    ```bash
    ./generateOddsMarkdown.sh
    ```
    Share `ODDS.md` with the team to show current probabilities before predictions
 
-5. **Spin the wheel** and celebrate! 🎉
+3. **Copy `wheelOfNamesInput.txt`** content into [wheelofnames.com](https://wheelofnames.com)
 
-### After the Ceremony
-
-6. **Update weights** (if you used dry-run mode):
+4. **Collect predictions** (before spinning):
    ```bash
+   # Interactive mode - walks through each person
    node updateWeights.js --interactive
+   # Or preview changes first
+   node updateWeights.js --dry-run --interactive
    ```
 
-7. **Generate final files**:
-   ```bash
-   node superHero.js
-   ./generateOddsMarkdown.sh
-   ```
+5. **Spin the wheel** before finalising the previous step and get the updated results! 🎉
 
 ## 🛠️ Available Commands
 
@@ -154,7 +140,7 @@ cat EXAMPLES.md
 
 - **Safe play**: Not guessing gives predictable +1/-1 changes
 - **Wrong guesses hurt**: Always worse than not guessing (minimum +2.2 penalty)
-- **Favorites vs Longshots**: 
+- **Favorites vs Longshots**:
   - Wrong guess on 30% favorite = +2.1 penalty
   - Wrong guess on 10% longshot = +1.5 penalty
 - **Correct longshot rewards**: Guessing a 10% winner correctly = ~3.0 bonus
@@ -170,7 +156,7 @@ If Alice (30%), Bob (20%), Charlie (15%) are the current odds:
 - Total: +2.8
 
 **Bob guessed Charlie, Charlie won:**
-- Base: +1 (didn't win) 
+- Base: +1 (didn't win)
 - Bonus: -2.0 (correct guess: 1/0.15×0.3)
 - Total: -1.0 (reward!)
 

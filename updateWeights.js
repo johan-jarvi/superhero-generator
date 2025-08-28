@@ -297,8 +297,13 @@ async function runInteractiveMode(dryRun = false) {
       }
     }
 
+    // Prompt to spin the wheel
+    console.log("🎰 Time to spin the wheel!");
+    console.log("Please go to the wheel and spin it now...");
+    await question("Press Enter when you're ready to enter the winner.");
+
     // Get the actual winner
-    console.log("🎰 Now for the big reveal...");
+    console.log("\n🎉 Now for the big reveal...");
     console.log(`Available options: ${teamMembers.join(", ")}`);
     const actualWinner = await question(
       "Who actually won the superhero selection? ",

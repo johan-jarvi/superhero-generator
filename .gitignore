@@ -1,3 +1,6 @@
 config.json
 node_modules
 dist
+
+# This file is personal for each team
+ODDS.md
