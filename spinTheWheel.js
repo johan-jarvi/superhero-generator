@@ -10,11 +10,11 @@ if (!fs.existsSync("io")) {
 const GAMIFICATION_CONFIG = {
   baseSuperheroReduction: 1.0, // Base reduction when becoming superhero
   baseNonSuperheroIncrease: 1.0, // Base increase when not becoming superhero (and no guess)
-  correctGuessBonusRate: 0.5, // Additional bonus multiplier for correct guesses (higher = more reward)
-  wrongGuessBasePenalty: 0.0, // Base penalty for any wrong guess (must exceed base increase)
-  wrongGuessPenaltyScaling: 5.0, // Additional penalty scaling for likely guesses
+  correctGuessBonusRate: 0.3, // Additional bonus multiplier for correct guesses (higher = more reward)
+  wrongGuessBasePenalty: 1.2, // Base penalty for any wrong guess (must exceed base increase)
+  wrongGuessPenaltyScaling: 3.0, // Additional penalty scaling for likely guesses
   minWeight: 0.5, // Minimum weight to prevent going to zero
-  maxWeight: 99.0, // Maximum weight to prevent extreme values
+  maxWeight: 15.0, // Maximum weight to prevent extreme values
 };
 
 /**
