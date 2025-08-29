@@ -62,7 +62,7 @@ try {
     "✅ Generated io/wheelOfNamesInput.txt and updated io/oddsDisplay.json.\n👉 Copy the contents of wheelOfNamesInput.txt into https://wheelofnames.com/.\n",
   );
   console.log(
-    "ℹ️  You can now also optionally run './generateOddsMarkdown.sh' to get a markdown display for current odds; and then run 'node spinTheWheel.js -i' to begin.",
+    "ℹ️  You can now also optionally run './generateOddsMarkdown.sh' to get a markdown display for current odds;\nand then run: 'node spinTheWheel.js -i' to begin.",
   );
 } catch (err) {
   console.error(err);
