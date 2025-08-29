@@ -124,21 +124,48 @@ function updatePersonWeight(
     // Read current config
     const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
 
+    // Use current config as initial config for single updates
+    updatePersonWeightWithInitialConfig(
+      personName,
+      actualWinner,
+      guessedWinner,
+      config,
+      dryRun,
+    );
+  } catch (error) {
+    console.error(`Error updating weight for ${personName}:`, error.message);
+  }
+}
+
+/**
+ * Update a person's weight using a provided initial config for probability calculations
+ */
+function updatePersonWeightWithInitialConfig(
+  personName,
+  actualWinner,
+  guessedWinner = null,
+  initialConfig,
+  dryRun = false,
+) {
+  try {
+    // Read current config for actual weight updates
+    const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
+
     // Find the person making the prediction
     const personIndex = config.findIndex((dev) => dev.name === personName);
     if (personIndex === -1) {
       throw new Error(`Person "${personName}" not found in config`);
     }
 
-    // Calculate the total adjustment (base rules + prediction bonus/penalty)
+    // Calculate the total adjustment using INITIAL config for probabilities
     const adjustment = calculateTotalWeightAdjustment(
       personName,
       actualWinner,
       guessedWinner,
-      config,
+      initialConfig,
     );
 
-    // Apply the adjustment
+    // Apply the adjustment to current weight
     const oldWeight = config[personIndex].count;
     const newWeight = applyWeightBounds(oldWeight + adjustment);
     config[personIndex].count = Math.round(newWeight * 10000) / 10000; // Round to 4 decimal places
@@ -152,8 +179,8 @@ function updatePersonWeight(
       : "NO GUESS";
 
     console.log(`${personName}:`);
-    console.log(`  Winner: ${isWinner ? "YES" : "NO"}`);
-    console.log(`  Guessed: ${guessedWinner || "No guess"}`);
+    console.log(`  Superhero: ${isWinner ? "YES" : "NO"}`);
+    console.log(`  Predicted: ${guessedWinner || "No prediction"}`);
     console.log(`  Result: ${guessResult}`);
     console.log(
       `  Weight change: ${oldWeight.toFixed(4)} → ${config[personIndex].count.toFixed(4)} (${adjustment > 0 ? "+" : ""}${adjustment.toFixed(4)})`,
@@ -184,12 +211,14 @@ function updateAllWeights(
   allTeamMembers = null,
   dryRun = false,
 ) {
-  console.log(`🎯 Processing superhero selection: ${actualWinner}\n`);
+  console.log(`🦸 Processing weight updates for superhero: ${actualWinner}\n`);
 
-  // Read config to get all team members if not provided
+  // Read initial config state to use for all probability calculations
+  const initialConfig = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
+
+  // Get all team members if not provided
   if (!allTeamMembers) {
-    const config = JSON.parse(fs.readFileSync("io/config.json", "utf-8"));
-    allTeamMembers = config.map((dev) => dev.name);
+    allTeamMembers = initialConfig.map((dev) => dev.name);
   }
 
   // Create a map of predictions for easy lookup
@@ -198,13 +227,20 @@ function updateAllWeights(
     predictionMap.set(person, guess);
   });
 
-  // Update all team members
+  // Update all team members using initial config for probability calculations
   allTeamMembers.forEach((person) => {
     const guess = predictionMap.get(person) || null;
-    updatePersonWeight(person, actualWinner, guess, dryRun);
+    updatePersonWeightWithInitialConfig(
+      person,
+      actualWinner,
+      guess,
+      initialConfig,
+      dryRun,
+    );
   });
 
-  // Show updated probabilities
+  // Show updated probabilities after weight changes
+  console.log("📊 Updated probabilities after weight changes:");
   showCurrentProbabilities();
 }
 
